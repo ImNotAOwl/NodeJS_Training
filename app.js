@@ -9,8 +9,8 @@ const app = express();
 
 app.use(express.json());         //middleware pour PARSER le JSON 
 
-app.get('/api', (_, res) => {
-    res.status(200).json({ success: "Bonjour, vous êtes sur l'API d'entrainement" });
+app.get('/api', ( _ , res) => {
+    res.status(200).json({ success: "API Todos DB v2 " });
 });
 
 const todosRoute = require('./routes/todos');

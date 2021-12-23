@@ -9,13 +9,16 @@ let todos = [
 
 module.exports = {
     getAllTodos: ( _ , res) => {
-        res.status(200).json({ success: todos});
+        res.status(200).json({ success: todos });
     },
 
-    deleteAllTodos : (req, res) => {
+    deleteAllTodos: ( _ , res) => {
         todos.splice(0, todos.length);
 
-        res.status(200).json({ success: "Toutes les todos ont été supprimées", todos: todos});
+        res.status(200).json({
+            success: "Toutes les todos ont été supprimées", 
+            todos: todos
+        });
     },
 
     updateAllTodos: (req, res) => {
@@ -24,7 +27,7 @@ module.exports = {
         todos.forEach((item, key) => {
             item.texte = texte;
         });
-        res.status(200).json({ success: "Toutes les taches ont été modifiées", todos: todos});        
+        res.status(200).json({ success: "Toutes les taches ont été modifiées", todos: todos });
     },
 
     addTodos: (req, res) => {
@@ -37,7 +40,7 @@ module.exports = {
             todos.push(item);
         })
 
-        res.status(200).json({ success: "Toutes les taches ont été ajoutées", todos: todos});
+        res.status(200).json({ success: "Toutes les taches ont été ajoutées", todos: todos });
 
     },
 
@@ -63,9 +66,9 @@ module.exports = {
             if (item.id == id) {
                 todos.splice(key, 1);
             }
-            
+
         });
-        
+
         return res.status(200).json({ success: `La todo a bien été supprimé`, todos: todos });
     },
 
@@ -74,8 +77,8 @@ module.exports = {
         const { texte } = req.body;
 
         if (id > todos.length) {
-            todos.push({id, texte});
-            
+            todos.push({ id, texte });
+
             return res.status(400).json({ error: `La todo ${id} vient d'être ajouté`, todos: todos });
         } else {
             todos.forEach((item, key) => {
