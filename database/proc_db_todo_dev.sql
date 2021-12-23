@@ -1,4 +1,4 @@
-use todo_list;
+use todo_dev;
 
 DELIMITER //
 
@@ -9,7 +9,7 @@ BEGIN
 END //
 
 -- Insert une todo sans ID comme en auto-increment
-CREATE OR REPLACE PROCEDURE insertTodo(IN task VARCHAR(255), name VARCHAR(255))
+CREATE OR REPLACE PROCEDURE insertTodo(IN task VARCHAR(255), IN name VARCHAR(255))
 BEGIN
     INSERT INTO todos(task_desc, attribute_to) VALUES(task, name);
 END //
@@ -48,13 +48,13 @@ BEGIN
 END //
 
 -- Modifie une description de tache depuis son ID
-CREATE OR REPLACE PROCEDURE updateDescById(IN id_url INT, task VARCHAR(255))
+CREATE OR REPLACE PROCEDURE updateDescById(IN id_url INT, IN task VARCHAR(255))
 BEGIN
     UPDATE todos SET task_desc = task WHERE id = id_url;
 END //
 
 -- Modifie un attribute_to depuis son ID
-CREATE OR REPLACE PROCEDURE updateAttributeById(IN id_url INT, name VARCHAR(255))
+CREATE OR REPLACE PROCEDURE updateAttributeById(IN id_url INT, IN name VARCHAR(255))
 BEGIN
     UPDATE todos SET attribute_to = name WHERE id = id_url;
 END //

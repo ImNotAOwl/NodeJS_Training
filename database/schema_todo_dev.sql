@@ -1,7 +1,4 @@
-CREATE
-OR REPLACE DATABASE todo_list;
-
-USE todo_list;
+USE todo_dev;
 
 CREATE
 OR REPLACE TABLE todos (

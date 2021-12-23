@@ -48,9 +48,9 @@ module.exports = {
 
         try {
             connexion = await pool.getConnection();
-            const result = await connexion.query('CALL deleteAllTodos');
+            const result = await connexion.query('CALL deleteAllTodos()');
 
-            return res.status(200).json({ success: "voici les resultats", result: result[0] });
+            return res.status(200).json({ success: "Les todos ont bien été supprimé", result: result });
 
         } catch (error) {
             return res.status(400).json({ error: error.message });

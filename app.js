@@ -1,3 +1,5 @@
+require('dotenv').config({ path: `./config/${process.env.NODE_ENV}.env`});
+
 const express = require('express');
 
 /* import express from 'express';     fonctionne pas actuellement
@@ -17,9 +19,7 @@ const todosRoute = require('./routes/todos');
 app.use('/api', todosRoute);
 
 
-
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
+app.listen(process.env.PORT, () => {
+    console.log(`Server listening on port ${process.env.PORT}`);
 });
 
