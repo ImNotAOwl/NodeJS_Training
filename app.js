@@ -1,10 +1,6 @@
 require('dotenv').config({ path: `./config/${process.env.NODE_ENV}.env`});
 
 const express = require('express');
-
-/* import express from 'express';     fonctionne pas actuellement
-   équivalent à :   const express = require('express') */
-
 const app = express();
 
 /*----------------SERVEUR EXPRESS------------------------------*/
