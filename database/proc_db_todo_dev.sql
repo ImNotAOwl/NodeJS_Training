@@ -5,7 +5,7 @@ DELIMITER //
 -- Selectionne toute les todos
 CREATE or replace PROCEDURE getAllTodos ()   
 BEGIN
-    select * from todos;
+    select id, task_desc, attribute_to from todos;
 END //
 
 -- Insert une todo sans ID comme en auto-increment
@@ -38,7 +38,7 @@ END //
 -- Selectionne une tache par son ID
 CREATE OR REPLACE PROCEDURE getOneTodoById(IN id_url INT)
 BEGIN
-    SELECT * FROM todos WHERE id = id_url;
+    SELECT id, task_desc, attribute_to FROM todos WHERE id = id_url;
 END //
 
 -- Supprime une tache par son ID

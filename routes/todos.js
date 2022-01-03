@@ -6,7 +6,10 @@ const router = require('express-promise-router')();
 //const { getAllTodos, deleteAllTodos, updateAllTodos, addTodos, getOneTodo, addOneTodo, deleteOneTodo, updateOneTodo } = require("../controllers/todos");     
 // déstructuration, on choisi d'importer que la propriété que l'on veut
 
-const { getAllTodosDB, addOneTodoDB, deleteAllTodosDB, updateAllTodosDB, getOneTodoDB, deleteOneTodoDB, updateOneTodoDB } = require("../controllers/todosDb")
+/*---- sans la fonction de factorisation du fichier UTILS---- */
+// const { getAllTodosDB, addOneTodoDB, deleteAllTodosDB, updateAllTodosDB, getOneTodoDB, deleteOneTodoDB, updateOneTodoDB } = require("../controllers/todosDB")
+
+const { getAllTodosDB, addOneTodoDB, deleteAllTodosDB, updateAllTodosDB, getOneTodoDB, deleteOneTodoDB, updateOneTodoDB } = require("../controllers/todosDB_utils")
 
 router
     .route('/todos')

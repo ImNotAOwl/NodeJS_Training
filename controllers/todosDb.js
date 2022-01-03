@@ -1,79 +1,52 @@
 const pool = require("../config/database");
 
-// fonction pour interroger la base de données
-const requestToDB = async (call) => {
-  let connexion;
-
-  try {
-    connexion = await pool.getConnection();
-    const result = await connexion.query(call);
-
-    return result;
-
-  } catch (error) {
-    return res.status(400).json({ error: error.message });
-  } finally {
-    if (connexion) {
-      connexion.end();
-    }
-  }
-};
-
-
 module.exports = {
-
-    // renvoie toutes les todos de la DB todo_dev
+  // renvoie toutes les todos de la DB todo_dev
   getAllTodosDB: async (_, res) => {
+    let connexion;
 
-    const result = await requestToDB('CALL getAllTodos');
-    return res.status(200).json({ success: "voici les tâches à faire", result: result[0]});
+    try {
+      connexion = await pool.getConnection();
+      const result = await connexion.query("CALL getAllTodos");
 
-    // let connexion;
-
-    // try {
-    //   connexion = await pool.getConnection();
-    //   const result = await connexion.query("CALL getAllTodos");
-
-    //   return res
-    //     .status(200)
-    //     .json({ success: "voici les resultats", result: result[0] });
-    // } catch (error) {
-    //   return res.status(400).json({ error: error.message });
-    // } finally {
-    //   if (connexion) {
-    //     connexion.end();
-    //   }
-    // }
-
+      return res
+        .status(200)
+        .json({ success: "voici les resultats", result: result[0] });
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    } finally {
+      if (connexion) {
+        connexion.end();
+      }
+    }
   },
 
-    // Ajoute une nouvelle Tache
+  // Ajoute une nouvelle Tache
   addOneTodoDB: async (req, res) => {
-    // let connexion;
+    let connexion;
     const { task_desc, attribute_to } = req.body;
 
-    await requestToDB(`CALL insertTodo('${task_desc}', '${attribute_to}')`);
-    const result = await requestToDB('CALL getAllTodos');
-    
-    return res.status(200).json({ success: "Tache ajoutée, voici les tâches à faire", result: result[0]});
+    try {
+      connexion = await pool.getConnection();
+      await connexion.query(`CALL insertTodo(:task_desc, :attribute_to)`, {
+        task_desc,
+        attribute_to,
+      });
+      await connexion.query(
+        `CALL insertTodo('${task_desc}', '${attribute_to}')`
+      );
+      const result = await connexion.query("CALL getAllTodos");
 
-
-    // try {
-    //   connexion = await pool.getConnection();
-    //   await connexion.query(`CALL insertTodo(?,?)`, [task_desc, attribute_to]);
-    //   await connexion.query(`CALL insertTodo('${task_desc}', '${attribute_to}')`);
-    //   const result = await connexion.query("CALL getAllTodos");
-
-    //   return res
-    //     .status(200)
-    //     .json({ success: "voici les resultats", result: result[0] });
-    // } catch (error) {
-    //   return res.status(400).json({ error: error.message });
-    // } finally {
-    //   if (connexion) {
-    //     connexion.end();
-    //   }
-    // }
+      return res
+        .status(200)
+        .json({ success: "voici les resultats", result: result[0] });
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    } finally {
+      if (connexion) {
+        connexion.end();
+      }
+    }
   },
 
   deleteAllTodosDB: async (_, res) => {
@@ -174,11 +147,9 @@ module.exports = {
           .status(200)
           .json({ success: "la tache est supprimé", result: result[0] });
       } else {
-        return res
-          .status(400)
-          .json({
-            error: "la tache n'existe pas, impossiblee de la supprimer...",
-          });
+        return res.status(400).json({
+          error: "la tache n'existe pas, impossiblee de la supprimer...",
+        });
       }
     } catch (error) {
       return res.status(400).json({ error: error.message });
