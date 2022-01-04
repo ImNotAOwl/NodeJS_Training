@@ -1,6 +1,7 @@
 const { call } = require("../utils/index");
 
 module.exports = {
+
   getAllTodosDB: async (_, res) => {
     await call(res, async (connexion) => {
       const result = await connexion.query("CALL getAllTodos()");
@@ -17,8 +18,10 @@ module.exports = {
 
   deleteAllTodosDB: async (_, res) => {
     await call(res, async (connexion) => {
+
       await connexion.query("CALL deleteAllTodos()");
       return res.status(200).json({ success: "les todos sont supprimés" });
+
     });
   },
 
@@ -26,13 +29,13 @@ module.exports = {
     const { task_desc, attribute_to } = req.body;
 
     await call(res, async (connexion) => {
+
       await connexion.query("CALL insertTodo(?,?)", [task_desc, attribute_to]);
       let result = await connexion.query("CALL getAllTodos()");
       result = result[0][result[0].length - 1];
 
-      return res
-        .status(200)
-        .json({ success: "la tache à bien été ajoutée ", result: result });
+      return res.status(200).json({ success: "la tache à bien été ajoutée ", result: result });
+
     });
   },
 
@@ -40,29 +43,37 @@ module.exports = {
     const { task_desc, attribute_to } = req.body;
 
     if (task_desc && attribute_to) {
+
       await call(res, async (connexion) => {
+
         await connexion.query("CALL updateAllDesc(?)", [task_desc]);
         await connexion.query("CALL updateAllAttribute(?)", [attribute_to]);
 
         return res.status(200).json({
           success: `Les taches de toutes les todos sont changés et attribués à ${attribute_to}`,
         });
+
       });
     } else if (attribute_to) {
+
       await call(res, async (connexion) => {
         await connexion.query("CALL updateAllAttribute(?)", [attribute_to]);
         return res.status(200).json({
           success: `Toutes les todos sont attribués à ${attribute_to}`,
         });
+
       });
     } else {
+
       await call(res, async (connexion) => {
         await connexion.query("CALL updateAllDesc(?)", [task_desc]);
 
         return res
           .status(200)
           .json({ success: `Les taches de toutes les todos sont changés` });
+
       });
+
     }
   },
 
@@ -71,6 +82,11 @@ module.exports = {
 
     await call(res, async (connexion) => {
       const result = await connexion.query("CALL getOneTodoById(?)", [id]);
+
+      if (result[0].length === 0) {
+        return res.status(200).json({ success: `La tache recherchée n'exite pas` });
+        
+      }
       return res.status(200).json({ success: result[0] });
     });
   },
@@ -120,4 +136,5 @@ module.exports = {
     }
     
   },
+  
 };
