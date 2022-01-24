@@ -1,4 +1,5 @@
 require('dotenv').config({ path: `./config/${process.env.NODE_ENV}.env`});
+const cors = require('cors');
 
 const express = require('express');
 const app = express();
@@ -6,6 +7,7 @@ const app = express();
 /*----------------SERVEUR EXPRESS------------------------------*/
 
 app.use(express.json());         //middleware pour PARSER le JSON 
+app.use(cors());
 
 app.get('/api', ( _ , res) => {
     res.status(200).json({ success: "API Todos DB v2 " });
